@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Master DSA Theory | G.O.E.</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #121212;
+            color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #1f1f1f;
+            padding: 15px 0;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 85%;
+            margin: 0 auto;
+        }
+
+        .logo {
+            color: #f5f5f5;
+            font-size: 1.5em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links li a {
+            color: #ccc;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: #ff8c00;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Content */
+        .container {
+            display: flex;
+            width: 85%;
+            margin: 50px auto;
+            padding-bottom: 50px;
+        }
+
+        .sidebar {
+            flex: 1;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            position: sticky;
+            top: 20px;
+            height: 100vh;
+        }
+
+        .sidebar h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #ff8c00;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: #ccc;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            color: #ff8c00;
+        }
+
+        .content {
+            flex: 3;
+            margin-left: 30px;
+            background-color: #1f1f1f;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+        }
+
+        .content h2 {
+            color: #ff8c00;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .content p {
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .content .code-box {
+            background-color: #282828;
+            border-left: 5px solid #ff8c00;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            color: #ccc;
+            font-size: 1em;
+        }
+
+        .content .accordion {
+            background-color: #333;
+            color: #f5f5f5;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.2em;
+            margin-top: 10px;
+            transition: background-color 0.4s ease;
+            border-radius: 5px;
+            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .content .accordion:hover {
+            background-color: #444;
+        }
+
+        .content .panel {
+            padding: 0 18px;
+            display: none;
+            background-color: #282828;
+            overflow: hidden;
+            border-radius: 5px;
+            margin-top: 10px;
+            color: #ccc;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f1f1f;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .social-icons {
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: #fff;
+            margin: 0 10px;
+            font-size: 1.4em;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #ff8c00;
+        }
+
+        /* Back-to-top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff8c00;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .back-to-top:hover {
+            background-color: #ff6f00;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                margin-bottom: 20px;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">G.O.E.</div>
+            <ul class="nav-links">
+                <li><a href="#intro">Home</a></li>
+                <li><a href="#arrays">Arrays</a></li>
+                <li><a href="#linkedlist">Linked List</a></li>
+                <li><a href="#stack">Stack</a></li>
+                <li><a href="#queue">Queue</a></li>
+                <li><a href="#tree">Tree</a></li>
+                <li><a href="#graph">Graph</a></li>
+                <li><a href="game.html">DSA Game</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Master Data Structures & Algorithms</h1>
+        <p>Comprehensive, in-depth knowledge to enhance your coding skills and ace technical interviews.</p>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Topics</h2>
+            <ul>
+                <li><a href="#intro">Introduction</a></li>
+                <li><a href="#arrays">Arrays</a></li>
+                <li><a href="#linkedlist">Linked List</a></li>
+                <li><a href="#stack">Stack</a></li>
+                <li><a href="#queue">Queue</a></li>
+                <li><a href="#tree">Tree</a></li>
+                <li><a href="#graph">Graph</a></li>
+                <li><a href="game.html">DSA Game</a></li>
+            </ul>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <section id="intro">
+                <h2>Introduction to DSA</h2>
+                <p>
+                    Data Structures and Algorithms (DSA) are crucial for solving complex computational problems. Understanding DSA concepts
+                    improves coding efficiency and enhances your ability to optimize solutions. It forms the backbone of efficient coding
+                    and problem-solving in competitive programming and software development.
+                </p>
+            </section>
+
+            <section id="arrays">
+                <h2>Arrays</h2>
+                <p>An array is a collection of items stored at contiguous memory locations. Arrays allow random access to elements, and are useful in sorting and searching algorithms.</p>
+
+                <button class="accordion">Advantages</button>
+                <div class="panel">
+                    <p>Arrays offer fast access to elements via index, making them ideal for read-heavy operations like searching, sorting, and iteration.</p>
+                </div>
+
+                <button class="accordion">Disadvantages</button>
+                <div class="panel">
+                    <p>Arrays have fixed sizes, making dynamic allocation and deletion difficult. They also consume more memory if not optimized.</p>
+                </div>
+
+                <button class="accordion">Code Example</button>
+                <div class="panel">
+                    <p class="code-box">
+                        int arr[] = {1, 2, 3, 4, 5}; <br>
+                        for(int i = 0; i &lt; 5; i++) { <br>
+                        &nbsp;&nbsp;printf("%d", arr[i]); <br>
+                        }
+                    </p>
+                </div>
+            </section>
+
+            <section id="linkedlist">
+                <h2>Linked List</h2>
+                <p>A linked list is a linear data structure where each element (node) points to the next, allowing for dynamic memory allocation.</p>
+
+                <button class="accordion">Advantages</button>
+                <div class="panel">
+                    <p>Linked lists provide efficient insertion and deletion compared to arrays, especially when the size of the data structure is unknown beforehand.</p>
+                </div>
+
+                <button class="accordion">Disadvantages</button>
+                <div class="panel">
+                    <p>Accessing elements in a linked list requires traversing from the head, making random access less efficient.</p>
+                </div>
+
+                <button class="accordion">Code Example</button>
+                <div class="panel">
+                    <p class="code-box">
+                        struct Node { <br>
+                        &nbsp;&nbsp;int data; <br>
+                        &nbsp;&nbsp;struct Node* next; <br>
+                        }; <br>
+                        struct Node* head = NULL;
+                    </p>
+                </div>
+            </section>
+
+            <section id="stack">
+                <h2>Stack</h2>
+                <p>A stack is a linear data structure that follows the Last In First Out (LIFO) principle. Common operations include push (insertion) and pop (removal).</p>
+
+                <button class="accordion">Advantages</button>
+                <div class="panel">
+                    <p>Stacks are excellent for recursive algorithms and can be used to solve problems like balancing parentheses and evaluating expressions.</p>
+                </div>
+
+                <button class="accordion">Disadvantages</button>
+                <div class="panel">
+                    <p>Stacks are limited in terms of size, especially when implemented using arrays, as they cannot dynamically expand.</p>
+                </div>
+
+                <button class="accordion">Code Example</button>
+                <div class="panel">
+                    <p class="code-box">
+                        int stack[MAX]; <br>
+                        int top = -1; <br>
+                        void push(int data) { <br>
+                        &nbsp;&nbsp;stack[++top] = data; <br>
+                        }
+                    </p>
+                </div>
+            </section>
+
+            <section id="queue">
+                <h2>Queue</h2>
+                <p>A queue is a linear data structure that follows the First In First Out (FIFO) principle. It is used in scheduling and task management algorithms.</p>
+
+                <button class="accordion">Advantages</button>
+                <div class="panel">
+                    <p>Queues provide efficient insertion and deletion of elements, making them ideal for applications like task scheduling, BFS, and resource allocation.</p>
+                </div>
+
+                <button class="accordion">Disadvantages</button>
+                <div class="panel">
+                    <p>Queues can become inefficient when implemented using arrays, as shifting elements may be necessary.</p>
+                </div>
+
+                <button class="accordion">Code Example</button>
+                <div class="panel">
+                    <p class="code-box">
+                        int queue[MAX]; <br>
+                        int front = -1, rear = -1; <br>
+                        void enqueue(int data) { <br>
+                        &nbsp;&nbsp;queue[++rear] = data; <br>
+                        }
+                    </p>
+                </div>
+            </section>
+
+            <section id="tree">
+                <h2>Tree</h2>
+                <p>A tree is a hierarchical data structure consisting of nodes, where each node contains a value and references to its child nodes.</p>
+
+                <button class="accordion">Advantages</button>
+                <div class="panel">
+                    <p>Trees offer efficient search, insertion, and deletion, making them suitable for databases, file systems, and network structures.</p>
+                </div>
+
+                <button class="accordion">Disadvantages</button>
+                <div class="panel">
+                    <p>Trees can become unbalanced, leading to inefficient operations in the worst-case scenarios.</p>
+                </div>
+
+                <button class="accordion">Code Example</button>
+                <div class="panel">
+                    <p class="code-box">
+                        struct TreeNode { <br>
+                        &nbsp;&nbsp;int data; <br>
+                        &nbsp;&nbsp;struct TreeNode* left; <br>
+                        &nbsp;&nbsp;struct TreeNode* right; <br>
+                        };
+                    </p>
+                </div>
+            </section>
+
+            <section id="graph">
+                <h2>Graph</h2>
+                <p>A graph is a data structure that consists of vertices (nodes) and edges (connections), representing relationships between entities.</p>
+
+                <button class="accordion">Advantages</button>
+                <div class="panel">
+                    <p>Graphs are ideal for representing networks, such as social connections, transportation routes, and communication pathways.</p>
+                </div>
+
+                <button class="accordion">Disadvantages</button>
+                <div class="panel">
+                    <p>Graphs can be memory-intensive due to the storage of all vertices and edges, especially in dense graphs.</p>
+                </div>
+
+                <button class="accordion">Code Example</button>
+                <div class="panel">
+                    <p class="code-box">
+                        struct Graph { <br>
+                        &nbsp;&nbsp;int numVertices; <br>
+                        &nbsp;&nbsp;int** adjMatrix; <br>
+                        };
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 G.O.E. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">LinkedIn</a>
+        </div>
+    </footer>
+
+    <!-- Back-to-top button -->
+    <button class="back-to-top" id="backToTopBtn">↑</button>
+
+    <script>
+        // Accordion functionality
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+
+        // Back-to-top button logic
+        window.onscroll = function () {
+            const backToTopBtn = document.getElementById("backToTopBtn");
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                backToTopBtn.style.display = "block";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        };
+
+        document.getElementById("backToTopBtn").addEventListener("click", function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
+
+</body>
+
+</html>

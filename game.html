@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Sorting Race Game ⚡</title>
+    <link rel="stylesheet" href="styles.css">
+
+
+    <style>/* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 800px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Header */
+        h1 {
+            font-size: 3rem;
+            color: #00e5ff;
+            text-shadow: 0 0 20px #00e5ff;
+        }
+        
+        .description {
+            margin-top: -10px;
+            font-size: 1.2rem;
+        }
+        
+        /* Control Buttons */
+        .controls {
+            margin: 20px 0;
+        }
+        
+        .neon-button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background-color: #1f4068;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        
+        .neon-button:hover {
+            box-shadow: 0 0 10px #00e5ff, 0 0 30px #007acc;
+            transform: scale(1.1);
+        }
+        
+        /* Array Container */
+        .array-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00e5ff;
+            border-radius: 10px;
+            overflow-x: auto;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        
+        /* Array Bar Styling */
+        .array-bar {
+            width: 20px;
+            margin: 0 2px;
+            background-color: #007acc;
+            border-radius: 5px;
+            transition: height 0.3s ease, background-color 0.3s ease;
+        }
+        
+        /* Message Bar */
+        .message-bar {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            color: #ff6347;
+        }
+        
+        /* Input Field Styling */
+        #userInput {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 20px;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+        }
+        /* Array Bar Value Styling */
+        .array-bar-value {
+            position: absolute;
+            top: -25px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+        /* Array Bar Styling */
+        .array-bar {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            width: 20px;
+            margin: 0 2px;
+            border-radius: 5px;
+            background-color: #007acc;
+            transition: height 0.3s ease, background-color 0.3s ease;
+        }
+        
+        /* Array Bar Value Styling */
+        .array-bar-value {
+            position: absolute;
+            bottom: 5px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            pointer-events: none;
+            transition: font-size 0.3s ease, opacity 0.3s ease;
+        }
+        
+        /* Dynamically Adjust Font Size */
+        .array-bar.small .array-bar-value {
+            font-size: 0.7rem;
+            opacity: 1;
+        }
+        
+        .array-bar.tiny .array-bar-value {
+            opacity: 0; /* Hide if the bar is too small */
+        }
+        </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Sorting Race Game ⚡</h1>
+        <p class="description">Enter your own numbers or generate a random array!</p>
+
+        <input type="text" id="userInput" 
+            placeholder="Enter numbers separated by commas (e.g., 10, 20, 5)" />
+        <button id="generateFromInput" class="neon-button">Generate from Input</button>
+
+        <div class="controls glass">
+            <button id="generate" class="neon-button">Generate Random Array</button>
+            <button id="bubbleSort" class="neon-button">Bubble Sort</button>
+            <button id="selectionSort" class="neon-button">Selection Sort</button>
+            <button id="insertionSort" class="neon-button">Insertion Sort</button>
+            <button id="reset" class="neon-button">Reset</button>
+
+            <input type="number" id="arraySize" min="10" max="100" value="50" 
+                placeholder="Array Size" title="Adjust Array Size" />
+            <input type="range" id="speedSlider" min="1" max="500" value="100" 
+                title="Adjust Sorting Speed" />
+
+            <p>Array Size: <span id="arraySizeDisplay">50</span></p>
+        </div>
+
+        <div id="array-container" class="array-container"></div>
+        <p id="message" class="message-bar"></p>
+    </div>
+
+    <script>const arrayContainer = document.getElementById('array-container');
+        const message = document.getElementById('message');
+        const arraySizeInput = document.getElementById('arraySize');
+        const arraySizeDisplay = document.getElementById('arraySizeDisplay');
+        const speedSlider = document.getElementById('speedSlider');
+        let array = [];
+        let sortingSpeed = 100;
+        
+        // Generate Random Array
+        function generateArray() {
+            const size = parseInt(arraySizeInput.value) || 50;
+            array = [];
+            arrayContainer.innerHTML = ''; // Clear existing bars
+        
+            for (let i = 0; i < size; i++) {
+                const value = Math.floor(Math.random() * 300) + 10;
+                array.push(value);
+        
+                const bar = document.createElement('div');
+                bar.classList.add('array-bar');
+                bar.style.height = `${value}px`;
+        
+                // Display the value of the bar on top of it
+                const barValue = document.createElement('div');
+                barValue.classList.add('array-bar-value');
+                barValue.textContent = value;
+                bar.appendChild(barValue);
+        
+                arrayContainer.appendChild(bar);
+            }
+            message.textContent = 'Random array generated!';
+        }
+        
+        // Generate Array from User Input
+        function generateArrayFromInput() {
+            const userInput = document.getElementById('userInput').value;
+            const values = userInput.split(',').map(num => parseInt(num.trim()));
+        
+            if (values.some(isNaN)) {
+                message.textContent = 'Invalid input. Please enter only numbers separated by commas.';
+                return;
+            }
+        
+            array = values;
+            arrayContainer.innerHTML = ''; // Clear existing bars
+        
+            values.forEach(value => {
+                const bar = document.createElement('div');
+                bar.classList.add('array-bar');
+                bar.style.height = `${value}px`;
+        
+                // Display the value of the bar on top of it
+                const barValue = document.createElement('div');
+                barValue.classList.add('array-bar-value');
+                barValue.textContent = value;
+                bar.appendChild(barValue);
+        
+                arrayContainer.appendChild(bar);
+            });
+        
+            message.textContent = 'Array generated from input!';
+        }
+        
+        // Update Array Size Display
+        arraySizeInput.addEventListener('input', (e) => {
+            arraySizeDisplay.textContent = e.target.value;
+            generateArray(); // Regenerate array when size changes
+        });
+        
+        // Adjust Speed based on Slider Value
+        speedSlider.addEventListener('input', (e) => {
+            sortingSpeed = 500 - e.target.value; // Lower value = faster speed
+        });
+        
+        // Disable or Enable Buttons
+        function toggleButtons(disable) {
+            document.querySelectorAll('button').forEach(button => {
+                button.disabled = disable;
+            });
+        }
+        
+        // Swap Function with Animation
+        async function swap(bars, i, j) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    const tempHeight = bars[i].style.height;
+                    bars[i].style.height = bars[j].style.height;
+                    bars[j].style.height = tempHeight;
+        
+                    const tempValue = bars[i].querySelector('.array-bar-value').textContent;
+                    bars[i].querySelector('.array-bar-value').textContent = 
+                        bars[j].querySelector('.array-bar-value').textContent;
+                    bars[j].querySelector('.array-bar-value').textContent = tempValue;
+        
+                    resolve();
+                }, sortingSpeed);
+            });
+        }
+        
+        // Bubble Sort Algorithm
+        async function bubbleSort() {
+            toggleButtons(true);
+            const bars = document.querySelectorAll('.array-bar');
+        
+            for (let i = 0; i < array.length - 1; i++) {
+                for (let j = 0; j < array.length - i - 1; j++) {
+                    bars[j].style.backgroundColor = 'red';
+                    bars[j + 1].style.backgroundColor = 'red';
+        
+                    if (array[j] > array[j + 1]) {
+                        await swap(bars, j, j + 1);
+                        [array[j], array[j + 1]] = [array[j + 1], array[j]];
+                    }
+        
+                    bars[j].style.backgroundColor = '#007acc';
+                    bars[j + 1].style.backgroundColor = '#007acc';
+                }
+                bars[array.length - i - 1].style.backgroundColor = 'green';
+            }
+            message.textContent = 'Array is sorted!';
+            toggleButtons(false);
+        }
+        // Selection Sort Algorithm
+        async function selectionSort() {
+            toggleButtons(true);
+            const bars = document.querySelectorAll('.array-bar');
+        
+            for (let i = 0; i < array.length - 1; i++) {
+                let minIndex = i; // Assume the first element is the minimum
+        
+                // Highlight the current sorting position
+                bars[i].style.backgroundColor = 'red';
+        
+                for (let j = i + 1; j < array.length; j++) {
+                    // Highlight the comparison bars
+                    bars[j].style.backgroundColor = 'yellow';
+        
+                    if (array[j] < array[minIndex]) {
+                        minIndex = j; // Update the index of the minimum element
+                    }
+                    // Reset color after comparison
+                    bars[j].style.backgroundColor = '#007acc';
+                }
+        
+                // Swap the found minimum element with the first element
+                if (minIndex !== i) {
+                    await swap(bars, i, minIndex);
+                    [array[i], array[minIndex]] = [array[minIndex], array[i]];
+                }
+                
+                // Mark the sorted position
+                bars[i].style.backgroundColor = 'green';
+            }
+            
+            // Mark the last element as sorted
+            bars[array.length - 1].style.backgroundColor = 'green';
+            message.textContent = 'Array is sorted!';
+            toggleButtons(false);
+        }
+        
+        // Event Listener for Selection Sort Button
+        document.getElementById('selectionSort').addEventListener('click', selectionSort);
+        
+        
+        // Event Listeners
+        document.getElementById('generate').addEventListener('click', generateArray);
+        document.getElementById('generateFromInput').addEventListener('click', generateArrayFromInput);
+        document.getElementById('bubbleSort').addEventListener('click', bubbleSort);
+        document.getElementById('reset').addEventListener('click', generateArray);
+        
+        // Initial Random Array Generation
+        generateArray();
+        </script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="keywords" content="Document" />
+    <meta name="description" content="Your Description..." />
+    <title>Document</title>
+    <link rel="stylesheet" href="resources/swiper js/swiper-bundle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="resources/css/loader.css" />
+    <link rel="stylesheet" href="resources/css/hamburger.css" />
+    <link rel="stylesheet" href="resources/css/home.css" />
+    <link rel="stylesheet" href="resources/css/about.css" />
+    <link rel="stylesheet" href="resources/css/services.css" />
+    <link rel="stylesheet" href="resources/css/portfolio.css" />
+    <link rel="stylesheet" href="resources/css/blog.css" />
+    <link rel="stylesheet" href="resources/css/contact.css" />
+    <link href="resources/mapbox-gl/mapbox-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="resources/css/style.css" />
+    
+  </head>
+  <body onload="loaded()">
+    <div class="loader">
+      <div class="c c1"></div>
+      <div class="c c2"></div>
+      <div class="c c3"></div>
+      <div class="c c4"></div>
+      <div class="c c5"></div>
+      <div class="c c6"></div>
+    </div>
+    <script>
+      let loader = document.querySelector(".loader");
+      function loaded() {
+        loader.classList.add("remove");
+        setTimeout(() => {
+          loader.style.display = "none";
+        }, 1000);
+      }
+    </script>
+    <!-- HAMBURGER MENU BUTTON (responsively visible) -->
+    <div class="hamburger">
+      <div class="bar1"></div>
+      <div class="bar2"></div>
+      <div class="bar3"></div>
+    </div>
+
+    <!-- THE REAL NAVIGATION -->
+    <nav class="navigation">
+      <h1>
+        G O E
+        <div></div>
+        <div></div>
+      </h1>
+      <ul>
+        <li><a href="index.html">home</a></li>
+
+        <li><a href="STUDY MATALIYAL.html">Study Material</a></li>
+
+        <li><a href="sorting.html">Sorting</a></li>
+        <li>
+          <a href="queue.html">Queue</a
+          >
+        </li>
+       
+        <li><a href="Stack.html">Stack</a></li>
+        <li>
+        <a href="chatbot.html">Chat-Bot</a>
+    </li>
+
+    <li>
+      <a href="level.html">Quiz</a>
+  </li>
+
+  <li>
+    <a href="Graph.html">Graph</a>
+</li>
+<li>
+  <a href="Tree.html">Tree</a>
+</li>
+       
+      </ul>
+      <br>
+      <p>&copy; 2024 BCA 3rd Sem</p>
+    </nav>
+
+    <div class="container">
+      <div class="layer layer1 active">
+        <div class="home main">
+          <div class="canvas_container">
+            <canvas></canvas>
+          </div>
+          <div class="content-for-home">
+            <h1 style="margin: 50px 50px; font-family: 'Arial, sans-serif';">
+                Welcome to our innovative educational platform where learning meets excitement! Our gamified approach to education transforms traditional subjects into engaging adventures.
+            </h1>
+             <h1 align="center"><u>BCA 3rd Sem</u></h1>
+        </div>
+         
+          </div>
+        </div>
+      </div>
+      <div class="layer layer2">
+        <div class="about main">
+          <!-- SEGMENT FOR STYLING. -->
+          <div class="styling">
+            <div class="absolute box"></div>
+            <div class="absolute circle"></div>
+            <div class="absolute triangle"></div>
+            <div class="absolute dots">
+              <div class="dot dot1"></div>
+              <div class="dot dot2"></div>
+              <div class="dot dot3"></div>
+              <div class="dot dot4"></div>
+              <div class="dot dot5"></div>
+              <div class="dot dot6"></div>
+              <div class="dot dot7"></div>
+              <div class="dot dot8"></div>
+              <div class="dot dot9"></div>
+              <div class="dot dot10"></div>
+              <div class="dot dot11"></div>
+              <div class="dot dot12"></div>
+              <div class="dot dot13"></div>
+              <div class="dot dot14"></div>
+              <div class="dot dot15"></div>
+              <div class="dot dot16"></div>
+              <div class="dot dot17"></div>
+              <div class="dot dot18"></div>
+              <div class="dot dot19"></div>
+              <div class="dot dot20"></div>
+              <div class="dot dot21"></div>
+              <div class="dot dot22"></div>
+              <div class="dot dot23"></div>
+              <div class="dot dot24"></div>
+            </div>
+
+            <svg
+              class="wave absolute"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1450 320"
+            >
+              <path
+                fill-opacity="1"
+                d="M0,320L48,277.3C96,235,192,149,288,122.7C384,96,480,128,576,165.3C672,203,768,245,864,234.7C960,224,1056,160,1152,112C1248,64,1344,32,1392,16L1440,0L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+              ></path>
+            </svg>
+
+            <svg
+              class="wave absolute opposite"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1450 320"
+            >
+              <path
+                fill-opacity="1"
+                d="M0,224L48,213.3C96,203,192,181,288,192C384,203,480,245,576,218.7C672,192,768,96,864,64C960,32,1056,64,1152,101.3C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+              ></path>
+            </svg>
+          </div>
+
+          <!-- REAL CONTENT -->
+          <div class="wrapper">
+            <div class="face face1">
+              <div class="content">
+              
+                <h1>Engagement</h1>
+                <p class="text">
+                  What: Gamification aims to increase student engagement by incorporating elements that make learning more interactive, entertaining, and enjoyable.
+              <br><br>    How: Game-like features such as points, badges, leaderboards, and rewards are integrated into educational activities. These elements motivate students to participate actively and maintain their interest in the learning process.
+                </p>
+               
+              </div>
+           
+
+        
+            <!-- EXPERIENCE -->
+            
+              <div class="whitespace"></div>
+              <div class="whitespace"></div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layer layer3">
+        <div class="services main">
+          <!-- <section class="background">
+                        <div class="bg_wrapper"></div>
+                    </section> -->
+         
+       
+
+    <!-----------------JQUERY {https://jquery.com/} [USED IN portfolio.js]----------------->
+    <script src="resources/js/jquery.min.js"></script>
+    <!-----------------MIX IT UP {https://www.kunkalabs.com/mixitup/} [USED IN portfolio.js]----------------->
+    <script src="resources/js/mixitup.min.js"></script>
+    <!-----------------SWIPER JS {https://swiperjs.com/} [USED IN portfolio.js, blog.js]----------------->
+    <script src="resources/swiper js/swiper-bundle.min.js"></script>
+    <!-----------------MAPBOX GL {https://www.mapbox.com/} [USED IN contact.js]----------------->
+    <script src="resources/mapbox-gl/mapbox-gl.js"></script>
+    <!-----------------EMAIL JS {https://www.emailjs.com/} [USED IN contact.js]----------------->
+    <script src="resources/js/email.min.js"></script>
+    <!-----------------ADDITIONAL SCRIPT FOR EMAIL JS----------------->
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("user_5OMETIDQ2Nm9qBMtaFNz4");
+      })();
+    </script>
+    <!-----------------VANILLA TILT JS {https://micku7zu.github.io/vanilla-tilt.js/}----------------->
+    <script src="resources/js/vanilla-tilt.min.js"></script>
+    <!-----------------ANIME JS {https://animejs.com/} [USED LOCALLY.]----------------->
+    <script src="resources/js/anime.min.js"></script>
+    <!-----------------LOCAL (HOME)----------------->
+    <script src="resources/js/home.js"></script>
+    <!-----------------LOCAL (ABOUT)----------------->
+    <script src="resources/js/about.js"></script>
+    <!-----------------LOCAL (SERVICES)----------------->
+    <script src="resources/js/services.js"></script>
+    <!-----------------LOCAL (PORTFOLIO)----------------->
+    <script src="resources/js/portfolio.js"></script>
+    <!-----------------LOCAL (BLOG)----------------->
+    <script src="resources/js/blog.js"></script>
+    <!-----------------LOCAL (CONTACT)----------------->
+    <script src="resources/js/contact.js"></script>
+    <!-----------------LOCAL (MAIN FILE)----------------->
+    <script src="resources/js/main.js"></script>
+
+    <!-----------------LOCAL (MAIN FILE { USED TO ANIMATE WEBPAGE.})----------------->
+    <script>
+      const animate1 = anime.timeline({
+        targets: ".circle",
+        loop: true,
+        duration: 2000,
+        direction: "alternate",
+        easing: "easeInOutQuad",
+      });
+      animate1.add({
+        translateX: 350,
+      });
+
+      let dot = document.querySelectorAll(".dot");
+      for (let i = 0; i < dot.length; i++) {
+        const ind = dot[i];
+        const animate2 = anime.timeline({
+          targets: ind,
+          loop: true,
+          direction: "alternate",
+          delay: i * 100,
+        });
+        animate2.add({
+          scale: 2,
+        });
+      }
+
+      let span = document.querySelectorAll(".content .text span");
+      const animate3 = anime.timeline({
+        targets: span,
+        easing: "easeInOutExpo",
+        delay: anime.stagger(20, { direction: "reverse" }),
+        direction: "reverse",
+        autoplay: false,
+      });
+
+      animate3.add({
+        rotate: () => {
+          return anime.random(-360, 360);
+        },
+        translateX: () => {
+          return anime.random(-500, 500);
+        },
+        translateY: () => {
+          return anime.random(-500, 500);
+        },
+        duration: 3000,
+      });
+
+      const animate4 = anime({
+        targets: ".button",
+        scale: [0, 1],
+        delay: anime.stagger(200, { start: 7000 }),
+        autoplay: false,
+      });
+
+      const animate5 = anime({
+        targets: [
+          document.querySelectorAll(".info"),
+          document.querySelectorAll(".inp_field"),
+          ".message",
+          ".submit",
+        ],
+        translateY: [50, 0],
+        rotateX: [90, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(300, { start: 1000 }),
+        duration: 750,
+        autoplay: false,
+        easing: "easeOutQuint",
+      });
+
+      const animate6 = anime({
+        targets: [".services .t_dummy", ".services .hero-text"],
+        duration: 1000,
+        scaleX: [0, 1],
+        delay: anime.stagger(300, { start: 1000 }),
+        autoplay: false,
+      });
+
+      function resize() {
+        if (window.innerWidth <= 632) {
+          animate5.play();
+          animate3.play();
+          animate4.play();
+          animate6.play();
+        }
+      }
+      resize();
+      window.addEventListener("resize", resize);
+    </script>
+  </body>
+</html>

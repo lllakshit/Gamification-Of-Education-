@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Questions</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0e0e0e; /* Darker background for digital look */
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 48px; /* Larger font size */
+            color: #03dac6; /* Neon color */
+            text-shadow: 0 0 10px rgba(3, 218, 198, 0.7), 0 0 20px rgba(3, 218, 198, 0.5);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            width: 80%;
+            max-width: 1200px;
+            animation: fadeIn 1s; /* Animation on load */
+        }
+
+        .box {
+            background-color: #6200ee; /* Base color for boxes */
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            position: relative; /* Position for pseudo-elements */
+            overflow: hidden; /* Prevent overflow for pseudo-elements */
+            cursor: pointer; /* Change cursor to pointer */
+        }
+
+        .box:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: opacity 0.3s;
+            opacity: 0; /* Initially hidden */
+            border-radius: 12px;
+            z-index: 0; /* Behind the content */
+        }
+
+        .box:hover:before {
+            opacity: 1; /* Show on hover */
+        }
+
+        .box:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            background-color: #03dac6; /* Change color on hover */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        /* DSA Questions */
+        .question {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Answers */
+        .answer {
+            display: none; /* Hide answer by default */
+            font-size: 16px;
+            margin-top: 10px;
+            color: #bb86fc; /* Light color for answers */
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>DSA Questions</h1>
+    <div class="container">
+        <div class="box" onclick="toggleAnswer(0)">
+            <div class="question">1. What is a Stack?</div>
+            <div class="answer">A Stack is a linear data structure that follows the Last In First Out (LIFO) principle.</div>
+        </div>
+        <div class="box" onclick="toggleAnswer(1)">
+            <div class="question">2. What is a Queue?</div>
+            <div class="answer">A Queue is a linear data structure that follows the First In First Out (FIFO) principle.</div>
+        </div>
+        <div class="box" onclick="toggleAnswer(2)">
+            <div class="question">3. What is a Binary Tree?</div>
+            <div class="answer">A Binary Tree is a tree data structure where each node has at most two children.</div>
+        </div>
+        <div class="box" onclick="toggleAnswer(3)">
+            <div class="question">4. What is a Linked List?</div>
+            <div class="answer">A Linked List is a linear collection of data elements, where each element points to the next one.</div>
+        </div>
+        <div class="box" onclick="toggleAnswer(4)">
+            <div class="question">5. What is a Hash Table?</div>
+            <div class="answer">A Hash Table is a data structure that maps keys to values for highly efficient data retrieval.</div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(index) {
+            const answer = document.querySelectorAll('.answer')[index];
+            // Toggle display of answer
+            if (answer.style.display === "none") {
+                answer.style.display = "block";
+            } else {
+                answer.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>

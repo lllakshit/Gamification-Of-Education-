@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game - DSA Edition</title>
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1d021b, #03171f, #311502);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #quiz-container, #result-container {
+            margin: 20px;
+            width: 350px;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+            position: relative; /* Added to position fireworks behind */
+            z-index: 1; /* Ensures quiz container is on top */
+        }
+
+        h2, h3 {
+            font-size: 24px;
+            color: #2d2d2d;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #03dac6;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #121212;
+            cursor: pointer;
+            border-radius: 8px;
+            margin: 10px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #018786;
+        }
+
+        #options-container button {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+            background-color: #03dac6;
+            color: #121212;
+        }
+
+        #options-container button:hover {
+            background-color: #018786;
+        }
+
+        #next-button {
+            width: 100%;
+        }
+
+        #result-container h3 {
+            font-size: 24px;
+            color: #bb86fc;
+        }
+
+        #result-container button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #badge {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0; /* Ensures fireworks are behind the quiz */
+        }
+
+        .firework {
+            position: absolute;
+            border-radius: 50%;
+            width: 5px;
+            height: 5px;
+            background: #fff;
+            animation: explode 2s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0.2);
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #03dac6;
+            border-radius: 10px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <h2>DSA Quiz Game</h2>
+        <div id="question-container"></div>
+        <div id="options-container"></div>
+        <button id="next-button" onclick="nextQuestion()">Next</button>
+    </div>
+<style>
+#badge{
+
+
+    width: 40%;
+}
+
+</style>
+
+
+    <div id="result-container" style="display:none;">
+        <h3>Your Score: <span id="score"></span></h3>
+        <!-- Replace the trophy image with a yellow badge -->
+        <img id="badge" src='award.png' alt="Congratulations Badge" />
+        <h3 id="congratulations" style="display:none;">Congratulations! You got all answers right!</h3>
+        <button onclick="downloadReport()">Download Report</button>
+        <button onclick="restartQuiz()">Restart</button>
+    </div>
+
+    <div id="fireworks"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the time complexity of inserting an element at the beginning of a linked list?",
+                options: ["O(1)", "O(n)", "O(log n)", "O(n log n)"],
+                answer: "O(1)"
+            },
+            {
+                question: "Which data structure is used for BFS (Breadth-First Search)?",
+                options: ["Stack", "Queue", "Heap", "Tree"],
+                answer: "Queue"
+            },
+            {
+                question: "What is the time complexity of searching for an element in a balanced binary search tree?",
+                options: ["O(1)", "O(n)", "O(log n)", "O(n log n)"],
+                answer: "O(log n)"
+            },
+            {
+                question: "Which of the following is a self-balancing binary search tree?",
+                options: ["AVL Tree", "Binary Heap", "Red-Black Tree", "Both AVL Tree and Red-Black Tree"],
+                answer: "Both AVL Tree and Red-Black Tree"
+            },
+            {
+                question: "Which sorting algorithm has the worst-case time complexity of O(n^2)?",
+                options: ["Merge Sort", "Heap Sort", "Quick Sort", "Bubble Sort"],
+                answer: "Bubble Sort"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const questionContainer = document.getElementById("question-container");
+            const optionsContainer = document.getElementById("options-container");
+
+            questionContainer.innerHTML = questions[currentQuestionIndex].question;
+            optionsContainer.innerHTML = "";
+
+            questions[currentQuestionIndex].options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedOption) {
+            if (selectedOption === questions[currentQuestionIndex].answer) {
+                score++;
+            }
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById("quiz-container").style.display = "none";
+            document.getElementById("result-container").style.display = "block";
+            document.getElementById("score").textContent = score;
+
+            if (score === questions.length) {
+                document.getElementById("badge").style.display = "block";
+                document.getElementById("congratulations").style.display = "block";
+                launchFireworks();
+            }
+        }
+
+        function restartQuiz() {
+            score = 0;
+            currentQuestionIndex = 0;
+            document.getElementById("quiz-container").style.display = "block";
+            document.getElementById("result-container").style.display = "none";
+            document.getElementById("badge").style.display = "none";
+            document.getElementById("congratulations").style.display = "none";
+            loadQuestion();
+        }
+
+        function downloadReport() {
+            const { jsPDF } = window.jspdf;
+
+            const doc = new jsPDF();
+            doc.setFontSize(16);
+            doc.text("Quiz Score Report", 20, 20);
+            doc.setFontSize(12);
+            doc.text(`Your Score: ${score} out of ${questions.length}`, 20, 30);
+
+            let yOffset = 40;
+            questions.forEach((question, index) => {
+                doc.text(`${index + 1}. ${question.question}`, 20, yOffset);
+                yOffset += 10;
+                doc.text(`Correct Answer: ${question.answer}`, 20, yOffset);
+                yOffset += 10;
+            });
+
+            doc.save("Quiz_Score_Report.pdf");
+        }
+
+        function launchFireworks() {
+            const fireworksContainer = document.getElementById('fireworks');
+            let fireworkInterval = setInterval(() => {
+                for (let i = 0; i < 20; i++) {
+                    const firework = document.createElement('div');
+                    firework.classList.add('firework');
+
+                    // Randomize color
+                    const randomColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    firework.style.background = randomColor;
+
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    const size = Math.random() * 15 + 5;
+                    firework.style.left = `${x}px`;
+                    firework.style.top = `${y}px`;
+                    firework.style.width = `${size}px`;
+                    firework.style.height = `${size}px`;
+                    fireworksContainer.appendChild(firework);
+
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 2000);
+                }
+            }, 500);
+
+            setTimeout(() => {
+                clearInterval(fireworkInterval);
+            }, 10000); // Fireworks will continue for 10 seconds
+        }
+
+        window.onload = loadQuestion;
+    </script>
+
+</body>
+</html>

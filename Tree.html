@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Visualizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input, select, button {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            margin-bottom: -1px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-color: #ddd;
+            border-radius: 4px 4px 0 0;
+            color: #4CAF50;
+        }
+        
+        .visualization-container {
+            position: relative;
+            height: 450px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            overflow: auto;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+        
+        .tree-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .node {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.5s ease;
+            z-index: 2;
+        }
+        
+        .node.highlighted {
+            background-color: #ff9800;
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.7);
+        }
+        
+        .edge {
+            position: absolute;
+            background-color: #666;
+            height: 2px;
+            transform-origin: left center;
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+        }
+        
+        .traversal-result {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            min-height: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .info-panel {
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        
+        .info-panel h3 {
+            margin-bottom: 10px;
+            color: #2e7d32;
+        }
+        
+        .info-panel p {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .animation-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Huffman specific styles */
+        .huffman-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .huffman-table th, .huffman-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .huffman-table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tree Visualizer</h1>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="bst">Binary Search Tree</div>
+            <div class="tab" data-tab="binary">Binary Tree</div>
+            <div class="tab" data-tab="mway">M-Way Tree</div>
+            <div class="tab" data-tab="huffman">Huffman Tree</div>
+        </div>
+        
+        <div class="controls">
+            <div class="input-group">
+                <label for="value-input">Value:</label>
+                <input type="text" id="value-input" placeholder="Enter value">
+            </div>
+            
+            <div class="input-group m-way-control" style="display: none;">
+                <label for="m-way-order">M-Way Order:</label>
+                <select id="m-way-order">
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            
+            <button id="insert-btn">Insert</button>
+            <button id="delete-btn">Delete</button>
+            <button id="clear-btn">Clear Tree</button>
+            
+            <div class="input-group traversal-controls">
+                <label for="traversal-type">Traversal:</label>
+                <select id="traversal-type">
+                    <option value="inorder">Inorder</option>
+                    <option value="preorder">Preorder</option>
+                    <option value="postorder">Postorder</option>
+                    <option value="levelorder">Level Order</option>
+                </select>
+                <button id="traverse-btn">Traverse</button>
+            </div>
+            
+            <div class="speed-control">
+                <label for="animation-speed">Speed:</label>
+                <input type="range" id="animation-speed" min="100" max="2000" step="100" value="1000">
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #4CAF50;"></div>
+                <span>Normal Node</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #ff9800;"></div>
+                <span>Current Node</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f44336;"></div>
+                <span>To Be Deleted</span>
+            </div>
+        </div>
+        
+        <div class="traversal-result" id="traversal-result">
+            Traversal result will appear here...
+        </div>
+        
+        <div class="visualization-container">
+            <div class="tree-container" id="tree-container"></div>
+        </div>
+        
+        <div class="huffman-controls" style="display: none;">
+            <div class="input-group">
+                <label for="huffman-text">Text for Huffman Coding:</label>
+                <input type="text" id="huffman-text" placeholder="Enter text" value="hello world">
+                <button id="build-huffman">Build Huffman Tree</button>
+            </div>
+            <div class="huffman-codes" id="huffman-codes"></div>
+        </div>
+        
+        <div class="info-panel">
+            <h3 id="info-title">Binary Search Tree</h3>
+            <div id="info-content">
+                <p>A Binary Search Tree (BST) is a node-based binary tree data structure which has the following properties:</p>
+                <p>• The left subtree of a node contains only nodes with keys lesser than the node's key.</p>
+                <p>• The right subtree of a node contains only nodes with keys greater than the node's key.</p>
+                <p>• The left and right subtree each must also be a binary search tree.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentTree = null;
+        let animationSpeed = 1000;
+        let animationInProgress = false;
+        let currentTreeType = 'bst';
+        let mWayOrder = 3;
+        
+        // DOM elements
+        const treeContainer = document.getElementById('tree-container');
+        const valueInput = document.getElementById('value-input');
+        const insertBtn = document.getElementById('insert-btn');
+        const deleteBtn = document.getElementById('delete-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const traverseBtn = document.getElementById('traverse-btn');
+        const traversalType = document.getElementById('traversal-type');
+        const traversalResult = document.getElementById('traversal-result');
+        const animationSpeedInput = document.getElementById('animation-speed');
+        const tabs = document.querySelectorAll('.tab');
+        const mWayOrderSelect = document.getElementById('m-way-order');
+        const mWayControls = document.querySelector('.m-way-control');
+        const huffmanControls = document.querySelector('.huffman-controls');
+        const huffmanTextInput = document.getElementById('huffman-text');
+        const buildHuffmanBtn = document.getElementById('build-huffman');
+        const huffmanCodesDiv = document.getElementById('huffman-codes');
+        const infoTitle = document.getElementById('info-title');
+        const infoContent = document.getElementById('info-content');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up event listeners
+            insertBtn.addEventListener('click', handleInsert);
+            deleteBtn.addEventListener('click', handleDelete);
+            clearBtn.addEventListener('click', clearTree);
+            traverseBtn.addEventListener('click', handleTraversal);
+            animationSpeedInput.addEventListener('input', function() {
+                animationSpeed = 2100 - parseInt(this.value);
+            });
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    changeTreeType(this.getAttribute('data-tab'));
+                });
+            });
+            
+            mWayOrderSelect.addEventListener('change', function() {
+                mWayOrder = parseInt(this.value);
+                if (currentTreeType === 'mway' && currentTree) {
+                    clearTree();
+                }
+            });
+            
+            buildHuffmanBtn.addEventListener('click', buildHuffmanTree);
+            
+            // Initialize BST
+            initializeBST();
+        });
+        
+        // Tree Classes
+        class BSTNode {
+            constructor(value) {
+                this.value = value;
+                this.left = null;
+                this.right = null;
+                this.x = 0;
+                this.y = 0;
+                this.id = 'node-' + Math.random().toString(36).substr(2, 9);
+            }
+        }
+        
+        class BinarySearchTree {
+            constructor() {
+                this.root = null;
+            }
+            
+            insert(value) {
+                const newNode = new BSTNode(value);
+                
+                if (this.root === null) {
+                    this.root = newNode;
+                    return [newNode];
+                }
+                
+                const animationSteps = [];
+                this._insertNode(this.root, newNode, animationSteps);
+                return animationSteps;
+            }
+            
+            _insertNode(node, newNode, animationSteps) {
+                animationSteps.push(node);
+                
+                if (newNode.value < node.value) {
+                    if (node.left === null) {
+                        node.left = newNode;
+                        animationSteps.push(newNode);
+                        return;
+                    }
+                    this._insertNode(node.left, newNode, animationSteps);
+                } else {
+                    if (node.right === null) {
+                        node.right = newNode;
+                        animationSteps.push(newNode);
+                        return;
+                    }
+                    this._insertNode(node.right, newNode, animationSteps);
+                }
+            }
+            
+             delete(value) {
+                const animationSteps = [];
+                this.root = this._deleteNode(this.root, value, animationSteps);
+                return animationSteps;
+            }
+            
+            _deleteNode(node, value, animationSteps) {
+                if (node === null) return null;
+                
+                animationSteps.push(node);
+                
+                if (value < node.value) {
+                    node.left = this._deleteNode(node.left, value, animationSteps);
+                    return node;
+                } else if (value > node.value) {
+                    node.right = this._deleteNode(node.right, value, animationSteps);
+                    return node;
+                }
+                
+                // Node to be deleted found
+                animationSteps.push({...node, toDelete: true});
+                
+                // Case 1: Leaf node
+                if (node.left === null && node.right === null) {
+                    return null;
+                }
+                
+                // Case 2: Node with one child
+                if (node.left === null) {
+                    return node.right;
+                }
+                
+                if (node.right === null) {
+                    return node.left;
+                }
+                
+                // Case 3: Node with two children
+                // Find the inorder successor (smallest node in right subtree)
+                let successor = this._findMinNode(node.right, animationSteps);
+                node.value = successor.value;
+                
+                // Delete the successor
+                node.right = this._deleteNode(node.right, successor.value, animationSteps);
+                return node;
+            }
+            
+            _findMinNode(node, animationSteps) {
+                while (node.left !== null) {
+                    animationSteps.push(node);
+                    node = node.left;
+                }
+                animationSteps.push(node);
+                return node;
+            }
+            
+            inorderTraversal() {
+                const result = [];
+                this._inorderTraversal(this.root, result);
+                return result;
+            }
+            
+            _inorderTraversal(node, result) {
+                if (node !== null) {
+                    this._inorderTraversal(node.left, result);
+                    result.push(node.value);
+                    this._inorderTraversal(node.right, result);
+                }
+            }
+            
+            preorderTraversal() {
+                const result = [];
+                this._preorderTraversal(this.root, result);
+                return result;
+            }
+            
+            _preorderTraversal(node, result) {
+                if (node !== null) {
+                    result.push(node.value);
+                    this._preorderTraversal(node.left, result);
+                    this._preorderTraversal(node.right, result);
+                }
+            }
+            
+            postorderTraversal() {
+                const result = [];
+                this._postorderTraversal(this.root, result);
+                return result;
+            }
+            
+            _postorderTraversal(node, result) {
+                if (node !== null) {
+                    this._postorderTraversal(node.left, result);
+                    this._postorderTraversal(node.right, result);
+                    result.push(node.value);
+                }
+            }
+
+            levelOrderTraversal() {
+                const result = [];
+                const queue = [];
+
+                if (this.root) {
+                    queue.push(this.root);
+                }
+
+                while (queue.length > 0) {
+                    const node = queue.shift();
+                    result.push(node.value);
+
+                    if (node.left) {
+                        queue.push(node.left);
+                    }
+
+                    if (node.right) {
+                        queue.push(node.right);
+                    }
+                }
+
+                return result;
+            }
+        }
+        
+        class BinaryTreeNode {
+            constructor(value) {
+                this.value = value;
+                this.left = null;
+                this.right = null;
+                this.x = 0;
+                this.y = 0;
+                this.id = 'node-' + Math.random().toString(36).substr(2, 9);
+            }
+        }
+
+        class BinaryTree {
+            constructor() {
+                this.root = null;
+            }
+
+            insert(value) {
+                const newNode = new BinaryTreeNode(value);
+
+                if (!this.root) {
+                    this.root = newNode;
+                    return [newNode];
+                }
+
+                const animationSteps = [];
+                this._insertNode(this.root, newNode, animationSteps);
+                return animationSteps;
+            }
+
+            _insertNode(node, newNode, animationSteps) {
+                animationSteps.push(node);
+
+                if (!node.left) {
+                    node.left = newNode;
+                    animationSteps.push(newNode);
+                    return;
+                } else if (!node.right) {
+                    node.right = newNode;
+                    animationSteps.push(newNode);
+                    return;
+                } else {
+                    // Randomly insert to left or right
+                    if (Math.random() < 0.5) {
+                        this._insertNode(node.left, newNode, animationSteps);
+                    } else {
+                        this._insertNode(node.right, newNode, animationSteps);
+                    }
+                }
+            }
+             delete(value) {
+                const animationSteps = [];
+                this.root = this._deleteNode(this.root, value, animationSteps);
+                return animationSteps;
+            }
+            
+            _deleteNode(node, value, animationSteps) {
+                if (node === null) return null;
+                
+                animationSteps.push(node);
+                
+                if (value < node.value) {
+                    node.left = this._deleteNode(node.left, value, animationSteps);
+                    return node;
+                } else if (value > node.value) {
+                    node.right = this._deleteNode(node.right, value, animationSteps);
+                    return node;
+                }
+                
+                // Node to be deleted found
+                animationSteps.push({...node, toDelete: true});
+                
+                // Case 1: Leaf node
+                if (node.left === null && node.right === null) {
+                    return null;
+                }
+                
+                // Case 2: Node with one child
+                if (node.left === null) {
+                    return node.right;
+                }
+                
+                if (node.right === null) {
+                    return node.left;
+                }
+                
+                // Case 3: Node with two children
+                // Find the inorder successor (smallest node in right subtree)
+                let successor = this._findMinNode(node.right, animationSteps);
+                node.value = successor.value;
+                
+                // Delete the successor
+                node.right = this._deleteNode(node.right, successor.value, animationSteps);
+                return node;
+            }
+          
+            _findMinNode(node, animationSteps) {
+                while (node.left !== null) {
+                    animationSteps.push(node);
+                    node = node.left;
+                }
+                animationSteps.push(node);
+                return node;
+            }
+
+            inorderTraversal() {
+                const result = [];
+                this._inorderTraversal(this.root, result);
+                return result;
+            }
+            
+            _inorderTraversal(node, result) {
+                if (node !== null) {
+                    this._inorderTraversal(node.left, result);
+                    result.push(node.value);
+                    this._inorderTraversal(node.right, result);
+                }
+            }
+            
+            preorderTraversal() {
+                const result = [];
+                this._preorderTraversal(this.root, result);
+                return result;
+            }
+            
+            _preorderTraversal(node, result) {
+                if (node !== null) {
+                    result.push(node.value);
+                    this._preorderTraversal(node.left, result);
+                    this._preorderTraversal(node.right, result);
+                }
+            }
+            
+            postorderTraversal() {
+                const result = [];
+                this._postorderTraversal(this.root, result);
+                return result;
+            }
+            
+            _postorderTraversal(node, result) {
+                if (node !== null) {
+                    this._postorderTraversal(node.left, result);
+                    this._postorderTraversal(node.right, result);
+                    result.push(node.value);
+                }
+            }
+
+            levelOrderTraversal() {
+                const result = [];
+                const queue = [];
+
+                if (this.root) {
+                    queue.push(this.root);
+                }
+
+                while (queue.length > 0) {
+                    const node = queue.shift();
+                    result.push(node.value);
+
+                    if (node.left) {
+                        queue.push(node.left);
+                    }
+
+                    if (node.right) {
+                        queue.push(node.right);
+                    }
+                }
+
+                return result;
+            }
+
+        }
+        
+        class MWayTreeNode {
+            constructor(order) {
+                this.keys = [];
+                this.children = [];
+                this.order = order;
+                this.x = 0;
+                this.y = 0;
+                this.id = 'node-' + Math.random().toString(36).substr(2, 9);
+            }
+        }
+        
+        class MWayTree {
+            constructor(order) {
+                this.root = null;
+                this.order = order;
+            }
+            
+            insert(value) {
+                const animationSteps = [];
+                if (!this.root) {
+                    this.root = new MWayTreeNode(this.order);
+                    this.root.keys.push(value);
+                    animationSteps.push(this.root);
+                    return animationSteps;
+                }
+                
+                this._insert(this.root, value, animationSteps);
+                return animationSteps;
+            }
+            
+            _insert(node, value, animationSteps) {
+                let i = 0;
+                while (i < node.keys.length && value > node.keys[i]) {
+                    i++;
+                }
+                
+                if (node.children.length === 0) {
+                    // Leaf node
+                    node.keys.splice(i, 0, value);
+                    animationSteps.push({...node, keys: [...node.keys]}); // Push a copy of the node with updated keys
+                    
+                    if (node.keys.length === this.order) {
+                        this._splitNode(node, animationSteps);
+                    }
+                } else {
+                    // Not a leaf node
+                    animationSteps.push(node);
+                    this._insert(node.children[i], value, animationSteps);
+                }
+            }
+            
+            _splitNode(node, animationSteps) {
+                const midIndex = Math.floor(this.order / 2);
+                const midValue = node.keys[midIndex];
+                
+                const leftKeys = node.keys.slice(0, midIndex);
+                const rightKeys = node.keys.slice(midIndex + 1);
+                
+                const leftChildren = node.children.slice(0, midIndex + 1);
+                const rightChildren = node.children.slice(midIndex + 1);
+                
+                const leftNode = new MWayTreeNode(this.order);
+                leftNode.keys = leftKeys;
+                leftNode.children = leftChildren;
+                
+                const rightNode = new MWayTreeNode(this.order);
+                rightNode.keys = rightKeys;
+                rightNode.children = rightChildren;
+                
+                animationSteps.push({...node, keys: [...node.keys], split: true}); // Mark the node as split for animation
+                animationSteps.push(leftNode);
+                animationSteps.push(rightNode);
+                
+                if (node === this.root) {
+                    // Splitting the root
+                    const newRoot = new MWayTreeNode(this.order);
+                    newRoot.keys.push(midValue);
+                    newRoot.children.push(leftNode);
+                    newRoot.children.push(rightNode);
+                    this.root = newRoot;
+                    animationSteps.push(newRoot);
+                } else {
+                    // Splitting a non-root node
+                    // Find the parent and insert the midValue and new nodes
+                    // This part requires a parent pointer, which is not currently implemented
+                    // For simplicity, we'll just log a message
+                    console.log("Splitting a non-root node - requires parent pointer implementation");
+                }
+            }
+            
+            // Inorder traversal for M-way tree
+            inorderTraversal() {
+                const result = [];
+                this._inorderTraversal(this.root, result);
+                return result;
+            }
+            
+            _inorderTraversal(node, result) {
+                if (node) {
+                    let i = 0;
+                    for (; i < node.keys.length; i++) {
+                        if (node.children[i]) {
+                            this._inorderTraversal(node.children[i], result);
+                        }
+                        result.push(node.keys[i]);
+                    }
+                    if (node.children[i]) {
+                        this._inorderTraversal(node.children[i], result);
+                    }
+                }
+            }
+
+            levelOrderTraversal() {
+                const result = [];
+                const queue = [];
+
+                if (this.root) {
+                    queue.push(this.root);
+                }
+
+                while (queue.length > 0) {
+                    const node = queue.shift();
+                    result.push(...node.keys);
+
+                    for (const child of node.children) {
+                        if (child) {
+                            queue.push(child);
+                        }
+                    }
+                }
+
+                return result;
+            }
+
+            delete(value) {
+                // Deletion from M-way trees is complex and requires rebalancing.
+                // This is a simplified placeholder.
+                alert("Deletion from M-way trees is not fully implemented.");
+                return [];
+            }
+        }
+        
+        class HuffmanNode {
+            constructor(char, frequency) {
+                this.char = char;
+                this.frequency = frequency;
+                this.left = null;
+                this.right = null;
+                this.x = 0;
+                this.y = 0;
+                this.id = 'node-' + Math.random().toString(36).substr(2, 9);
+            }
+        }
+        
+        class HuffmanTree {
+            constructor(text) {
+                this.text = text;
+                this.root = null;
+                this.codes = {};
+            }
+            
+            buildTree() {
+                const frequencyMap = {};
+                for (const char of this.text) {
+                    frequencyMap[char] = (frequencyMap[char] || 0) + 1;
+                }
+                
+                const priorityQueue = [];
+                for (const char in frequencyMap) {
+                    if (frequencyMap.hasOwnProperty(char)) {
+                        priorityQueue.push(new HuffmanNode(char, frequencyMap[char]));
+                    }
+                }
+                
+                priorityQueue.sort((a, b) => a.frequency - b.frequency);
+                
+                while (priorityQueue.length > 1) {
+                    const left = priorityQueue.shift();
+                    const right = priorityQueue.shift();
+                    
+                    const newNode = new HuffmanNode(null, left.frequency + right.frequency);
+                    newNode.left = left;
+                    newNode.right = right;
+                    
+                    priorityQueue.push(newNode);
+                    priorityQueue.sort((a, b) => a.frequency - b.frequency);
+                }
+                
+                this.root = priorityQueue[0];
+                this.generateCodes(this.root, '');
+            }
+            
+            generateCodes(node, code) {
+                if (node.char) {
+                    this.codes[node.char] = code;
+                    return;
+                }
+                
+                this.generateCodes(node.left, code + '0');
+                this.generateCodes(node.right, code + '1');
+            }
+
+             inorderTraversal() {
+                const result = [];
+                this._inorderTraversal(this.root, result);
+                return result;
+            }
+            
+            _inorderTraversal(node, result) {
+                if (node !== null) {
+                    this._inorderTraversal(node.left, result);
+                    result.push(node.value);
+                    this._inorderTraversal(node.right, result);
+                }
+            }
+            
+            preorderTraversal() {
+                const result = [];
+                this._preorderTraversal(this.root, result);
+                return result;
+            }
+            
+            _preorderTraversal(node, result) {
+                if (node !== null) {
+                    result.push(node.value);
+                    this._preorderTraversal(node.left, result);
+                    this._preorderTraversal(node.right, result);
+                }
+            }
+            
+            postorderTraversal() {
+                const result = [];
+                this._postorderTraversal(this.root, result);
+                return result;
+            }
+            
+            _postorderTraversal(node, result) {
+                if (node !== null) {
+                    this._postorderTraversal(node.left, result);
+                    this._postorderTraversal(node.right, result);
+                    result.push(node.value);
+                }
+            }
+
+            levelOrderTraversal() {
+                const result = [];
+                const queue = [];
+
+                if (this.root) {
+                    queue.push(this.root);
+                }
+
+                while (queue.length > 0) {
+                    const node = queue.shift();
+                     if (node.char) {
+                        result.push(`${node.char}:${node.frequency}`);
+                     } else {
+                        result.push(`Frequency: ${node.frequency}`);
+                     }
+
+                    if (node.left) {
+                        queue.push(node.left);
+                    }
+
+                    if (node.right) {
+                        queue.push(node.right);
+                    }
+                }
+
+                return result;
+            }
+             delete(value) {
+                alert("Deletion is not supported for Huffman Trees.");
+                return [];
+            }
+        }
+        
+        // Helper functions
+        function visualizeTree(animationSteps) {
+            if (animationInProgress) return;
+            animationInProgress = true;
+            treeContainer.innerHTML = ''; // Clear previous tree
+            
+            let stepIndex = 0;
+            
+            function animate() {
+                if (stepIndex < animationSteps.length) {
+                    const step = animationSteps[stepIndex];
+                    
+                    if (Array.isArray(step)) {
+                        // Handle multiple node updates in a single step (e.g., after a split)
+                        step.forEach(node => updateNode(node));
+                    } else {
+                        updateNode(step);
+                    }
+                    
+                    stepIndex++;
+                    setTimeout(animate, animationSpeed);
+                } else {
+                    animationInProgress = false;
+                     if (currentTreeType === 'mway') {
+                        positionMWayTree(currentTree.root, treeContainer.offsetWidth / 2, 50, 150);
+                     } else {
+                        positionNodes(currentTree.root, treeContainer.offsetWidth / 2, 50, 150);
+                     }
+                }
+            }
+            
+            function updateNode(node) {
+                let nodeElement = document.getElementById(node.id);
+                
+                if (!nodeElement) {
+                    // Create a new node element
+                    nodeElement = document.createElement('div');
+                    nodeElement.classList.add('node');
+                    nodeElement.id = node.id;
+                    nodeElement.textContent = node.value !== null ? node.value : (node.char ? node.char : node.frequency); // Handle null values for Huffman nodes
+                    treeContainer.appendChild(nodeElement);
+                }
+
+                if (node.toDelete) {
+                    nodeElement.classList.add('highlighted');
+                } else {
+                    nodeElement.classList.add('highlighted');
+                    setTimeout(() => nodeElement.classList.remove('highlighted'), animationSpeed);
+                }
+            }
+
+            animate();
+        }
+        
+        function positionNodes(node, x, y, xOffset) {
+            if (!node) return;
+            
+            node.x = x;
+            node.y = y;
+            
+            const nodeElement = document.getElementById(node.id);
+            if (nodeElement) {
+                nodeElement.style.left = `${x - 20}px`;
+                nodeElement.style.top = `${y - 20}px`;
+            }
+            
+            positionNodes(node.left, x - xOffset, y + 75, xOffset / 2);
+            positionNodes(node.right, x + xOffset, y + 75, xOffset / 2);
+            
+            // Draw edges after positioning nodes
+            drawEdges(node);
+        }
+        
+        function positionMWayTree(node, x, y, xOffset) {
+            if (!node) return;
+            
+            node.x = x;
+            node.y = y;
+            
+            const nodeElement = document.getElementById(node.id);
+            if (nodeElement) {
+                // Display all keys inside the node
+                nodeElement.textContent = node.keys.join(', ');
+                nodeElement.style.left = `${x - (nodeElement.offsetWidth / 2)}px`; // Center the node based on its content width
+                nodeElement.style.top = `${y - 20}px`;
+            }
+
+            const childrenCount = node.children.length;
+            const totalWidth = xOffset * 2; // Total width available for children
+            let startX = x - xOffset; // Starting x position for the first child
+
+            if (childrenCount > 0) {
+                const childOffset = totalWidth / childrenCount; // Width allocated for each child
+
+                for (let i = 0; i < childrenCount; i++) {
+                    const child = node.children[i];
+                    const childX = startX + (childOffset * (i + 0.5)); // Center the child within its allocated width
+                    positionMWayTree(child, childX, y + 75, xOffset / 2);
+                }
+            }
+
+            // Draw edges after positioning nodes
+            drawEdges(node);
+        }
+        
+        function drawEdges(node) {
+            if (!node) return;
+            
+            if (currentTreeType !== 'mway') {
+                if (node.left) drawEdge(node, node.left);
+                if (node.right) drawEdge(node, node.right);
+            } else {
+                for (const child of node.children) {
+                    if (child) drawEdge(node, child);
+                }
+            }
+        }
+        
+        function drawEdge(parent, child) {
+            const parentElement = document.getElementById(parent.id);
+            const childElement = document.getElementById(child.id);
+            
+            if (!parentElement || !childElement) return;
+            
+            const x1 = parent.x;
+            const y1 = parent.y;
+            const x2 = child.x;
+            const y2 = child.y;
+            
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI);
+            
+            const edge = document.createElement('div');
+            edge.classList.add('edge');
+            edge.style.width = `${length}px`;
+            edge.style.left = `${x1}px`;
+            edge.style.top = `${y1}px`;
+            edge.style.transform = `rotate(${angle}deg)`;
+            
+            treeContainer.appendChild(edge);
+        }
+        
+        function handleInsert() {
+            const value = valueInput.value;
+            if (!value) {
+                alert('Please enter a value to insert.');
+                return;
+            }
+            
+            let animationSteps = [];
+            
+            if (currentTreeType === 'bst') {
+                animationSteps = currentTree.insert(value);
+            } else if (currentTreeType === 'binary') {
+                animationSteps = currentTree.insert(value);
+            } else if (currentTreeType === 'mway') {
+                animationSteps = currentTree.insert(value);
+            } else {
+                alert('Insert is not supported for Huffman Trees. Build the tree with text input.');
+                return;
+            }
+            
+            visualizeTree(animationSteps);
+            valueInput.value = '';
+        }
+        
+        function handleDelete() {
+            const value = valueInput.value;
+             if (!value) {
+                alert('Please enter a value to delete.');
+                return;
+            }
+
+            let animationSteps = [];
+
+            if (currentTreeType === 'bst') {
+                animationSteps = currentTree.delete(value);
+            } else if (currentTreeType === 'binary') {
+                 animationSteps = currentTree.delete(value);
+            } else if (currentTreeType === 'mway') {
+                animationSteps = currentTree.delete(value);
+            }
+            else {
+                animationSteps = currentTree.delete(value);
+            }
+            
+            visualizeTree(animationSteps);
+            valueInput.value = '';
+        }
+        
+        function handleTraversal() {
+            let traversal;
+            if (currentTreeType === 'bst' || currentTreeType === 'binary') {
+                const type = traversalType.value;
+            
+                switch (type) {
+                    case 'inorder':
+                        traversal = currentTree.inorderTraversal();
+                        break;
+                    case 'preorder':
+                        traversal = currentTree.preorderTraversal();
+                        break;
+                    case 'postorder':
+                        traversal = currentTree.postorderTraversal();
+                        break;
+                    case 'levelorder':
+                        traversal = currentTree.levelOrderTraversal();
+                        break;
+                    default:
+                        traversal = [];
+                }
+            } else if (currentTreeType === 'mway') {
+                const type = traversalType.value;
+
+                switch (type) {
+                    case 'inorder':
+                        traversal = currentTree.inorderTraversal();
+                        break;
+                    case 'levelorder':
+                        traversal = currentTree.levelOrderTraversal();
+                        break;
+                    default:
+                        traversal = [];
+                }
+            } else if (currentTreeType === 'huffman') {
+                const type = traversalType.value;
+
+                switch (type) {
+                     case 'inorder':
+                        traversal = currentTree.inorderTraversal();
+                        break;
+                    case 'preorder':
+                        traversal = currentTree.preorderTraversal();
+                        break;
+                    case 'postorder':
+                        traversal = currentTree.postorderTraversal();
+                        break;
+                    case 'levelorder':
+                        traversal = currentTree.levelOrderTraversal();
+                        break;
+                    default:
+                        traversal = [];
+                }
+            } else {
+                traversal = [];
+            }
+            
+            traversalResult.textContent = 'Traversal Result: ' + traversal.join(', ');
+        }
+        
+        function clearTree() {
+            treeContainer.innerHTML = '';
+            if (currentTreeType === 'bst') {
+                initializeBST();
+            } else if (currentTreeType === 'binary') {
+                initializeBinaryTree();
+            } else if (currentTreeType === 'mway') {
+                initializeMWayTree();
+            } else if (currentTreeType === 'huffman') {
+                initializeHuffmanTree();
+                huffmanCodesDiv.textContent = '';
+            }
+
+            traversalResult.textContent = "Traversal result will appear here...";
+        }
+        
+        function changeTreeType(type) {
+            currentTreeType = type;
+            
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.tab[data-tab="${type}"]`).classList.add('active');
+            
+            mWayControls.style.display = type === 'mway' ? 'flex' : 'none';
+            huffmanControls.style.display = type === 'huffman' ? 'block' : 'none';
+            
+            clearTree();
+            
+            let infoTitleText = '';
+            let infoContentText = '';
+            
+            if (type === 'bst') {
+                infoTitleText = 'Binary Search Tree';
+                infoContentText = `<p>A Binary Search Tree (BST) is a node-based binary tree data structure which has the following properties:</p>
+                                   <p>• The left subtree of a node contains only nodes with keys lesser than the node's key.</p>
+                                   <p>• The right subtree of a node contains only nodes with keys greater than the node's key.</p>
+                                   <p>• The left and right subtree each must also be a binary search tree.</p>`;
+            } else if (type === 'binary') {
+                infoTitleText = 'Binary Tree';
+                infoContentText = `<p>A binary tree is a tree data structure in which each node has at most two children, which are referred to as the left child and the right child.</p>`;
+            } else if (type === 'mway') {
+                infoTitleText = 'M-Way Tree';
+                infoContentText = `<p>An M-way tree is a tree data structure where each node can have up to M children. It is a generalization of a binary tree.</p>`;
+            } else if (type === 'huffman') {
+                infoTitleText = 'Huffman Tree';
+                infoContentText = `<p>A Huffman tree is a specific type of decision tree used for Huffman coding, a lossless data compression algorithm.</p>`;
+            }
+            
+            infoTitle.textContent = infoTitleText;
+            infoContent.innerHTML = infoContentText;
+        }
+        
+        function initializeBST() {
+            currentTree = new BinarySearchTree();
+        }
+        
+        function initializeBinaryTree() {
+            currentTree = new BinaryTree();
+        }
+        
+        function initializeMWayTree() {
+            currentTree = new MWayTree(mWayOrder);
+        }
+        
+        function initializeHuffmanTree() {
+            currentTree = null;
+        }
+        
+        function buildHuffmanTree() {
+            const text = huffmanTextInput.value;
+            if (!text) {
+                alert('Please enter text for Huffman coding.');
+                return;
+            }
+            
+            currentTree = new HuffmanTree(text);
+            currentTree.buildTree();
+            
+            displayHuffmanCodes(currentTree.codes);
+            
+             // Visualize the Huffman Tree
+             // Since buildTree doesn't return animation steps, we need to improvise
+             // We can perform a level order traversal and highlight each node as a "step"
+             const animationSteps = [];
+             const queue = [currentTree.root];
+
+             while (queue.length > 0) {
+                const node = queue.shift();
+                animationSteps.push(node);
+
+                if (node.left) {
+                    queue.push(node.left);
+                }
+                if (node.right) {
+                    queue.push(node.right);
+                }
+             }
+
+             visualizeTree(animationSteps);
+        }
+        
+        function displayHuffmanCodes(codes) {
+            let tableHTML = '<table class="huffman-table"><thead><tr><th>Character</th><th>Code</th></tr></thead><tbody>';
+            
+            for (const char in codes) {
+                if (codes.hasOwnProperty(char)) {
+                    tableHTML += `<tr><td>${char}</td><td>${codes[char]}</td></tr>`;
+                }
+            }
+            
+            tableHTML += '</tbody></table>';
+            huffmanCodesDiv.innerHTML = tableHTML;
+        }
+    </script>
+</body>
+</html>
+
