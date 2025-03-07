@@ -3,98 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Futuristic Queue</title>
+    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXkAAACGCAMAAAAPbgp3AAABF1BMVEX6//v+//75//r3//n////9//2v/8D4//n8//34//r9//77//z5//v+///8//wAZjPp8+20/8Tf6+WNr5yP5KZPp222/8bs9vBku3960JOqxrbG2s8AZC1adWMAPAAAXyaUmpWK26BcrHah9LSco54SekVMnWhzoYdonH8+WkgaSS53hnxTjWuFkonr9+/x9vR0xYyYuKS40sPF2s+Cq5Msek9Yj2+gv6zV5NtIhWHh4uEASBOwxrdNbFhAlmEAXBsniU0ARR4XTy5hcmchdEdjm3woc0dZlXRIgV0ogk46gVgggEgAVBU6jlnCw8IAJAAAUyOws7EASgrP0tAAOxEuTDlEZlAATQBvdnEMYjmJlY1TZ1oALwBlXegLAAAQRUlEQVR4nO2dC2OaWBbH0RwjD4mIiURxm5pMxZmxEtAopq6ZzphO6jaz287OPqb7/T/HXh4q9wIXUMmr/NMELvfc4+HH4XDxVQZwsbqiS/pT0dOJJEwpopMUXSdIM/4Gj5zxkCsLFewj5d/gI89KeuGh4/m2hLHfkM+5P4B0iV2trsjzUl5mHkTKKu098rpk/xXRj/3XW/Fa4vqPv+XbTDNLOAi28b1bCDvsnq+XNHNWgiH4RuuKn7wLPteDyJvlOOR5CQqio4L7G7oQQxcJzbK0fmYBe+gd8nnG710irdNBb5NXWHAOk3uo/IvgFtoisXVCb2msMwsYfCFEDSqk2z031Rn7/gmc8wCcfyv5WhDSCjELG7Qvsyx9P8zuga8FrO6QlwrgHDZP7sFdbYlciAViUNwinVnWvh9390AREXmU8oVcDys76RnQefd8cA/z6owprC7Q3pXa14G3Eg7azixL36RZxKBNB/WKmhIdqvQM+n3sDHgWEsGqR8pICxF0ltkUm0BpC1aw/Zk9N98iaCfHker8NAOKi2CHyOqMLuQ5n0CgnjYOI1Wr3ae8WoLE6HxGsb4sgXYRDR6hb85Sk1cyCvWFCXp7Jo+qjRhvlisL8lJGob4wZUE+z/kkIsnXarU85x9EBPmL+26ztjt5vsDbQktnNdAqbFppzUIGkWaP4HuLEHDytfOLxjyQ82l8i3nOJxRB/vLy+M3u1YbPFS+i2tSazS5JPpW/wjMk/zjxEjnf7Fx0yTqfyp9H3q1Dzi6t/3gFydtPX2uzGTcrhJvtxXeMGR8eQmDQDiGQc5vLc3yq49T5BCGsfG9yvoR+nAXZKvna3kopxIwnzAKDMDM+3owSwva+eaI31HdoCMFZZYB8qt17jtXmcZTgTiqVP4d8KVe8EpBP5S/P+aTKc/6xFEu+lT7n+YxifVmC+nGNRv5U3aLa2CuR+HnKIr3Z87AOMwP5J/tZsgg1jpdiwWcd7zvP+cQC6+okUvO+ni7lcfI8dmACrZRmMYMSmmXpO9wschCAJEdJB0gZQiDn2c2S3bRK2GqJ7KC1Upo9ou94M8q7bVL7zqvNlloh39qBTR4dhlwpBd+9/xnp/S+wrQc+z/mtBN+dVZHaf9k66Xkn53Ol1e7knWqzz9OQkPMuUF/bbpTAWfq3w9YnbZywxwfeianA8t5mEKGwCihVDBvy2wbGKx55dMl1tzgrpVW7FNLGN7Phm912QRqP7yx06S+gq7+9c5YFJRgBTIZgqPYFCjFgC9AyIbVvNiRu0gxNwmczdHPptnlV50ssyBLoM9NEm8GSLXQjKaAI1dlMhuQh+MnHhBAeqVtttj1s8QJ5YamKqiq6qfOqZfEfDL6g3wKMWqCZYMqgo19GHU0ySnoY3WltdfWxpYWEUhw0GaTeYmqgDbLeM1E6oFSo9rQz+9OS3qSFj/O7v5zPRiBXR3XuZiItZgvlZtKWlwYLwwkiPx19GI5aS8mYVZWryVUrM/KGPFZby4WkXlXl5bCqFOBXwX4ngWotP1ijGTr+MEGH5o0qV6V6X4P+XU+66SuFGL9PnbwoL2YmVwVTg7G5gL48Rid2Hf2ONHNqXvXGqjmqymdgZJfzH/pXlq4urKois8sbFQpKzy7rvaFg3bXqDvmeVIDF3Y1ZOavfSPJkIb2BGPB7IF/KOuevAPQzVHTQTxWm1rgFKOdKoNnVZmzOpLZalavWNDvyE70+6s/GFsp6ZWlMUUW3Hwtuh5oxcsmzv6LLfZUz+pV2xULBLKRFbDT7Ib/t2ATilZZYYiY8WHWZn4gzyTIqAtpXUC1U5IX6DFTDlKW6aWVF3viwQCVtfGtad1Opr/QsmNiPBZpq3vUmhjkaglRHAS0VmKqtO63S1/ry9IHIZzmr5NezSHTtKkEBLVhnOod2VuSduSU4H0DKKgD8w8GF9Wx2sxVNrey2O/cC92s34t0+9Zx/sdoT+aPsRPk8iv2wbHR3yR5OeXecPbyUqXeaNuS3JZNtzpdAj3xGW3ZO/OhuHahPiEt2+apEDxfjvPMixbscV3CeeM6X+N599Ms4H2fQ+hjdfa+BvIzuPlnKoNG8t2BG8T4f89J0Ht1/ZdGTeU85b6+wR94BWC/Wm1msl11vJKz9HW4Lxp1G9EuXtZPRCaW30dQ+XkQPbxx+1JoU742T0Zzm/Xi8pHivHf5NKpC7Zz/ts2rj5H0womGtNxPkM1BBmlM+x4j0ifZi/mHjvkN9sb9zT/Ve+0R97Eb3kur9uE5mswi/6fyqsa+cFwTn39GRsFoVsFW8ldQM1FMq2sM3dHTdY+rozjn9wL2h9R7WzqnH9fBCA2yHWLj+5e/X4mr3NuRjKESiY7PIec/hsyfvE/Cv37XfXYvr9n5yXshGz538Zk9QofkBkX53vbn/2uT8lmJd8s5JsDobjtat1Z8jooWZRX0FRiDna8QbnwPkifdFE+TJ4SR5opsgXyOGk+RJ7zZ5jwIP118/tRHnf7z+bq2v7VXOe2buPh8FYflafsI2+aPdMvv6x/evQvQ9EORrnS6RZgT52imNfO28i39WgCB/cY534+Rrl118OEEe9ePBrXMeFZq3rxzM1erZRu6WTc6DoWmameIMYHetNvD51Vk1RO2/kuQPzxtd/E2hOPlap0ojf3hCnCE4+dr9YbMTTR7pEpvMEOQvuvhH/dbkAT7/HLqD7qH4c318pqPZzHLeB+J90y3rPAeEGoL7bFAI+V1yHn77Eh5TCPnaBb5zBHkyaQnyx3/r4u5w8hddnGyQ/D2t2tTm5+dhOS/+/v2ndiT46pffxRWIaUuS2Nb4dqrLy97S0iZQldRpX1KXoE2U8bRFoN+RPMv+MyKmMPJNIotx8vML/JQIXGGJU4Yg/+YCR0/W+csmjfzx+SHu3SMPb99RwJ/9Z40T+tVF22pNYTm8nUDb6hlwM2hbk7G6gN5kNJJuFLy27EgePt8kJ99pdPC0xMlfXn5sUsh3OlTyh/NG55RGnjjfcPK15mXjFHu4dbW5/uVLFPuzP9g1TZjar/a2bmE67A9hYfUmcCPf1OuToU1eG9dHIeS3By/Aj24NPAvo5l8gknW+S6026IYfZ0Pk/JxabWrN+Rw7MCR5vNgE5jbEBXhzhS24M0ovn3w6+/ILy29ILK/6d0arD0uztTRuLGNq/HtwO+q3pJtZ1RgujWVItdmJvJMP718H9TlAPttZJdlN1nnisZPMKlc7Cd95k5vvffr69nfwZTFvqaoqSxZYEvp3pYIqWxX7pTeQVVlGf3hiIrMX8u0fwubzAkk+oGdzJwX6f+yS47+Tsl/iwlDYX8nHo5OgwKLTpDoEkS8cCSI6KXixVEJ/SHRHeyIf1vlyyAs82HOcd9d82H6GqBQ/U99Xzod1viDyzrz+/avE5BMokPNMlCUT1gqS95m9GPLuPqGSc82HUgi2Epj5yDtb7BfgU9zTUnOet06oO1drU8k3uvQP43W69OFVWm88+VFgn9BNaXIysXLJMyux8mxmciUmTELItjX5MANB/EjOKDA0zf92aN8AeXjVbUQPrzW6V1Tvnf826d7nFO+HjRNVTEwhncHKDq82YLZHd1XOfiOM4L77RHCedxAF+12/gkg++0DNeUG03jSjv9b0tC9OT6O7m2+kyTy6+3huSFTvU35M9W7NfupE958EU37PcnLel8PmFGDROtA0BVpjY2JpMDHBGFugybImDscTiM75oEBpRX+VrwosmNHdLU4E2Yj+ImALCtwsergJJVCjuycK0LzXrYg92p82Oc/Yhd4h3zP65nAqtzntV7WKWhONa1fOLKsqVcVxCxjX2n1C2j+fd1wwgrdwVliIloj6Kd1wJDC0/2cJXeyOaMORd9qXZ7PuNS3S+4YJtvDvXlg/ab2293Uw7jU2JOeXratxr2f2oXWrLkCbjJa9sdS2rIV61tskvfjn27dv//zeubn72V7/UU9a4nIxXs5vmmBWDa19cDtpjZQzq38r38gLw+xbS7hqGdVB1epb/Mr087/XLxDYz9vc/Jj5CfqiRJAvyYZhKMBNDA5UwxiDaZgqqsYyyPXhhJdR+VyPLP2BPYf3XmcfYweerQjyjDOft+uvwBSgNXULqr2pBCKgyuibauEvipy9zlM+lUjyWJ8k09JYgK++pP9ZyKt8Ktnkozvp9YO/3iT9p895yqcTlXycVq+LoHnlHzn4lNqJPKu/8sh/+S38XjtXpHYiz8BrN+nbX/OUT6vdyAvCezflr/l441yYNuQr2CKoStgCPn9y3/yQyDpSmViHmqWz3jUEqvVOOY/Q/+C8PpnfRKWWm/MVpmLLPhz2Kt5yVoMt10z87ZNzE1XxFGGWwnfqEFYdxagQ9uA7sVny3ds15xl0O/U+v4naRjZ553AUK0V34WndKvp6vRVfi//9f5+h6Lf3j/YPInvjzIrRIezsm757lBDCfBe3CsHLeTf/vbNls5pkAa8ZId6skt538hBSWT+ZEJycL+6gCjC7DM9YO+1aptqKfEWI/opp4enu69PSps4nFwPScKji8trDoQRp3T0/FVNsjZRNPmWWMmxvfhqpucY/5erzdBQyt4mYy6w3A/2z180R4Pa0RXAloXVxL77D7TMJONCfPueZA/pnrxv3XJ70CZSevCB16e/ZmytCRsG+KGVCPs/5BMrJP5b2QJ78L61y8olkk085giB/3CU+TJmTT6T05Imcr93XjvEP6eXkE2lFnnN+8AWH5K34OsicrzWIj7Uj8mHeioQvzGm0NYdHQneazDeH+87EOt6ssnO1aVwSn47Mcz6RnJzn0oggX7s8bQTIp3L4jcrLec45ndwF3vIt3FUy5z/O78OqTch4z3GYU2IRGUJ0pLv7ThoCF2WWLgQ/+aL7W/R5CVkEqg35lT0e+VCnMb5TmT0d6612r7JrtQkorzbJVMzJP5Ic8mUkDv14C45o44sk5F3rFE79RutVmnVwhe40UQgpAvavbLN75fIWOT/Ic34fsslz3rFIpqIS9/z8QTFycKpH2tf45IP2GF6sK5c8yv/1mVMOaXGcrwN6x7TXpDoaeIMSecPNthpEMeMizCiDKGZbRRoVt02+7G0IP2ocubFy0D9tRuqk70v5oNNNBxe3JaaPZk20aON9faEUYkIIrxdJxhclRj9IeZIxrNqKlMoy6bx9q7LJK25e4MebnEGUfW2O9n4bzje6HJg6lIO9uO8kIZTDzSJ800II3b39hxDim+MkRhxEXxGz1MGjPOqT0YHOgLTrJT1XehUHPAMKyr4DW2X7n7vqtMp46+Ag3CxiUJk6KKHvGLOH8L1bCBFmZU4CBvhHKjffsjhFR+RBskuuV3ZDF5EdvkVcf6inBINS+D5I5TR1COl80/uLA9Emzw+4g1wPqfJAB5s8KEqOHlc53mQn7xK45O16k+lD5cJUHLAr8gUpJ/9wKtq1xiMP7CBH/1AqDhTYkEfo84LzMOLcjF+TRwUnn+E8gMoHK/Br8miGMzjI2WcrxF1afxXkhjzw0iDr+dS3rDKHuOsb3D7yiL0iDQaPHeEL1WCAcSfII4m6LuXavxSd/MLa/wPe673Cdr0A7AAAAABJRU5ErkJggg==" type="image/x-icon">
+    <title>Queue Visualizer</title>
     <style>
-        /* High-tech Neon Theme */
+        /* Modern Professional Theme */
         body {
             margin: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #2f0101, #12003c, #920c92);
-            overflow: hidden;
-            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #1e1e1e, #2c3e50);
+            font-family: 'Roboto', sans-serif;
+            color: #ecf0f1;
         }
 
         #container {
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 20px;
+            background: #34495e;
+            border-radius: 10px;
             padding: 30px;
-            width: 600px;
+            width: 90%;
+            max-width: 1200px;
             text-align: center;
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: auto;
+            height: 90vh;
         }
 
         h1 {
-            color: #00e0ff;
-            font-size: 2rem;
+            color: #ecf0f1;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        #description {
+            text-align: left;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        #description h2 {
+            font-size: 1.5rem;
             margin-bottom: 10px;
-            text-shadow: 0 0 15px #00e0ff;
         }
 
-        #queue {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.2);
+        #description p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
         }
 
-        .queue-item {
-            width: 90px;
-            height: 70px;
-            background: linear-gradient(135deg, #12c2e9, #c471ed, #f64f59);
-            color: white;
-            font-size: 1.2rem;
+        #queue-controls {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.5s ease;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         input, button {
-            margin: 10px;
-            padding: 12px;
+            padding: 10px;
             border: none;
-            border-radius: 25px;
+            border-radius: 5px;
             outline: none;
-            font-size: 18px;
+            font-size: 16px;
             transition: 0.3s ease;
         }
 
         input {
-            width: 80px;
-            background: rgba(0, 0, 0, 0.5);
-            color: #00e0ff;
+            width: 150px;
+            background: #2c3e50;
+            color: #ecf0f1;
             text-align: center;
         }
 
         button {
-            background: linear-gradient(135deg, #43cea2, #185a9d);
+            background: #3498db;
             color: white;
             cursor: pointer;
         }
 
         button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            background: #2980b9;
         }
 
         #tos-display {
-            color: #00ff99;
+            color: #2ecc71;
             margin-top: 10px;
             font-size: 1.2rem;
-            text-shadow: 0 0 10px #00ff99;
         }
 
         #error-message {
-            color: #ff5252;
+            color: #e74c3c;
             margin-top: 5px;
             height: 20px;
         }
@@ -103,26 +104,67 @@
             margin: 15px 0;
             height: 10px;
             border-radius: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.2);
+            background: #2c3e50;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            width: 100%;
         }
 
         #progress-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(135deg, #0cebeb, #20e3b2, #29ffc6);
+            background: #2ecc71;
             border-radius: 5px;
-            transition: width 0.5s ease;
+            transition: width 0.3s ease;
+        }
+
+        #queue {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 20px;
+            background: #2c3e50;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        .queue-item {
+            width: 80px;
+            height: 60px;
+            background: #3498db;
+            color: white;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
     </style>
 </head>
 <body>
     <div id="container">
-        <h1>Neon Futuristic Queue</h1>
+        <h1>Queue Visualizer</h1>
+        <div id="description">
+            <h2>About Queues</h2>
+            <p>A queue is a linear data structure that follows the First In First Out (FIFO) principle. This means that the first element added to the queue will be the first one to be removed.</p>
+            <p>Queues are commonly used in various applications such as scheduling processes in operating systems, handling requests in web servers, and managing tasks in asynchronous programming.</p>
+            <h2>Queue Operations</h2>
+            <p><strong>Enqueue:</strong> Adds an element to the end of the queue.</p>
+            <p><strong>Dequeue:</strong> Removes the element from the front of the queue.</p>
+            <h2>Applications of Queues</h2>
+            <p><strong>CPU Scheduling:</strong> Queues are used to manage processes in operating systems, ensuring that each process gets a fair share of CPU time.</p>
+            <p><strong>Print Spooling:</strong> Queues manage print jobs in a printer, ensuring that documents are printed in the order they were submitted.</p>
+            <p><strong>Task Scheduling:</strong> Queues are used in task scheduling systems to manage and execute tasks in the order they were added.</p>
+            <p><strong>Data Streaming:</strong> Queues are used to buffer data streams, ensuring smooth and orderly processing of data.</p>
+        </div>
+        <div id="queue-controls">
+            <input type="text" id="value-input" placeholder="Enter value" onkeypress="handleKeyPress(event)">
+            <button onclick="enqueue()">Enqueue</button>
+            <button onclick="dequeue()">Dequeue</button>
+        </div>
         <div id="tos-display">First in Queue: None</div>
-        <input type="text" id="value-input" placeholder="Value" onkeypress="handleKeyPress(event)">
-        <button onclick="enqueue()">Enqueue</button>
-        <button onclick="dequeue()">Dequeue</button>
         <div id="error-message"></div>
 
         <!-- Progress bar to show queue size -->
